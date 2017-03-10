@@ -320,8 +320,8 @@
 
                     if (st) {
 
-                        h = st[0].match(reg);
-                        m = st[1].match(reg);
+                        h = st[0].match(reg)[0];
+                        m = st[1].match(reg)[0];
                         if (_td_input.val().indexOf("am") != -1 || _td_input.val().indexOf("AM") != -1 || _td_input.val().indexOf("pm") != -1 || _td_input.val().indexOf("PM") != -1) {
                             if (_td_input.val().indexOf("am") != -1 || _td_input.val().indexOf("AM") != -1) am = true;
                             else am = false;
