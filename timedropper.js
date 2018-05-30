@@ -378,7 +378,7 @@
 
                 _td_container.removeClass('td-fadeout');
                 _td_container.addClass('td-show').addClass('td-' + _td_options.init_animation);
-                _td_c.css({
+                _td_c.offset({
                     'top': (_td_input.offset().top + (_td_input.outerHeight() - 8)),
                     'left': (_td_input.offset().left + (_td_input.outerWidth() / 2)) - (_td_c.outerWidth() / 2)
                 });
@@ -408,7 +408,7 @@
             $(window).on('resize', function() {
 
                 _td_define_deg();
-                _td_c.css({
+                _td_c.offset({
                     'top': (_td_input.offset().top + (_td_input.outerHeight() - 8)),
                     'left': (_td_input.offset().left + (_td_input.outerWidth() / 2)) - (_td_c.outerWidth() / 2)
                 });
