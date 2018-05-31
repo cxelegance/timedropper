@@ -7,7 +7,7 @@
                 _td_input_on = false,
                 _td_mobile = false,
                 _td_num = function(n) {
-                    return n < 10 ? '0' + n : n
+                    return n < 10 ? '0' + n : n;
                 },
                 _td_id = $('.td-clock').length,
                 _td_alert,
@@ -107,6 +107,8 @@
                     var h = Math.round((deg * 23 / 360));
                     var m = Math.round((deg * 59 / 360));
 
+					var a, A, str;
+
                     if (t.index() == 0) {
 
                         t.attr('data-id', _td_num(h));
@@ -148,21 +150,18 @@
                         _td_m = _td_c.find('.td-time span:last').attr('data-id');
 
                     if (Math.round(_td_h) >= 12 && Math.round(_td_h) < 24) {
-                        var
-                            h = Math.round(_td_h) - 12,
-                            a = 'pm',
+                            h = Math.round(_td_h) - 12;
+                            a = 'pm';
                             A = 'PM';
                     } else {
-                        var
-                            h = Math.round(_td_h),
-                            a = 'am',
+                            h = Math.round(_td_h);
+                            a = 'am';
                             A = 'AM';
                     }
 
                     if (h == 0) h = 12;
 
-                    var
-                        str =
+                    str =
                         _td_options.format
                         .replace(/\b(H)\b/g, Math.round(_td_h))
                         .replace(/\b(h)\b/g, Math.round(h))
@@ -265,13 +264,13 @@
 
                     if (e.originalEvent.wheelDelta > 0) {
                         if (_td_wheel_deg <= 360) {
-                            if (e.originalEvent.wheelDelta <= 120) _td_wheel_deg++
+                            if (e.originalEvent.wheelDelta <= 120) _td_wheel_deg++;
                                 else if (e.originalEvent.wheelDelta > 120) _td_wheel_deg = _td_wheel_deg + 20;
                             if (_td_wheel_deg > 360) _td_wheel_deg = 0;
                         }
                     } else {
                         if (_td_wheel_deg >= 0) {
-                            if (e.originalEvent.wheelDelta >= -120) _td_wheel_deg--
+                            if (e.originalEvent.wheelDelta >= -120) _td_wheel_deg--;
                                 else if (e.originalEvent.wheelDelta < -120) _td_wheel_deg = _td_wheel_deg - 20;
                             if (_td_wheel_deg < 0) _td_wheel_deg = 360;
                         }
@@ -363,7 +362,7 @@
                 _td_init_deg = -1;
 
 
-            }
+            };
 
             _td_init();
 
@@ -401,7 +400,7 @@
 
                 _td_container.addClass('td-fadeout').removeClass('td-' + _td_options.init_animation);
                 _td_event = setTimeout(function() {
-                    _td_container.removeClass('td-show')
+                    _td_container.removeClass('td-show');
                 }, 300);
 
             });
