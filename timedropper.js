@@ -50,7 +50,8 @@
                     primaryColor: "#1977CC",
                     borderColor: "#1977CC",
                     backgroundColor: "#FFF",
-                    textColor: '#555'
+                    textColor: '#555',
+					readonly: true
 
                 }, options);
 
@@ -146,7 +147,7 @@
 
 			_td_input.data('td_readonly', _td_input.prop('readonly'));
             _td_input.prop({
-                'readonly': true
+                'readonly': _td_options.readonly
             }).addClass('td-input');
 			_td_input.data('td_id', _td_id);
 
