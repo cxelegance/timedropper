@@ -10,9 +10,11 @@
 			_td_input.off('click.timeDropper');
 			_td_input.off('focus.timeDropper');
 			_td_input.removeClass('td-input');
+			_td_input.prop({'readonly': _td_input.data('td_readonly')});
 			$('#td-clock-' + _td_id).remove();
 			$('#td-style-' + _td_id).remove();
 			_td_input.removeData('td_id');
+			_td_input.removeData('td_readonly');
 		}
 	};
 
@@ -87,6 +89,7 @@
 				$('#td-clock-' + _td_input.data('td_id')).length > 0
 			) return; // already instantiated on this input!
 
+			_td_input.data('td_readonly', _td_input.prop('readonly'));
             _td_input.prop({
                 'readonly': true
             }).addClass('td-input');
