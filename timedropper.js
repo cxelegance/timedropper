@@ -84,7 +84,7 @@
                 return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
 
             };
-            
+
             var _td_setTime = function() {
                 var
                     d = new Date(),
@@ -395,9 +395,9 @@
             var _td_init = function() {
 
                 var oTime = _td_setTime();
-                
+
                 _td_event_deg = Math.round((oTime.h * 360 / 23));
-                
+
                 _td_c.find('.td-lancette div:first').css('transform', 'rotate(' + Math.round((oTime.m * 360 / 59)) + 'deg)');
 
                 _td_rotation(_td_event_deg);
@@ -419,9 +419,9 @@
                 clearInterval(_td_event);
 
                 _td_setTime();
-                
+
                 $('.td-time span:last', _td_c).triggerHandler('click'); // quietly set minutes rotation
-                
+
                 _td_container.removeClass('td-fadeout');
                 _td_container.addClass('td-show').addClass('td-' + _td_options.init_animation);
                 _td_c.offset({
@@ -430,7 +430,7 @@
                 });
 
                 $('.td-time span:first', _td_c).triggerHandler('click'); // visually set hours rotation
-                
+
                 if (_td_c.hasClass('td-init')) {
 
                     _td_alert = setInterval(function() {
