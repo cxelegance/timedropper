@@ -1,6 +1,31 @@
 (function($) {
-    $.fn.timeDropper = function(options, callbackFnk) {
-        return $(this).each(function() {
+
+	var methods = { // for any method: ("this", options, index, element) such that element === $(this).get(index)
+		destroy: function(options, index, element){
+			var _td_input, _td_id;
+			if(element !== $(this).get(index)) throw 'oops, destroy() called with bad params or "this" binding';
+			_td_input = $(element);
+			_td_id = _td_input.data('td_id');
+			if(!$.isNumeric(_td_id)) return;
+			_td_input.off('click.timeDropper');
+			_td_input.off('focus.timeDropper');
+			_td_input.removeClass('td-input');
+			$('#td-clock-' + _td_id).remove();
+			$('#td-style-' + _td_id).remove();
+			_td_input.removeData('td_id');
+		}
+	};
+
+	$.fn.timeDropper = function(method, options) {
+		if(typeof method != 'string'){
+			options = method;
+			method = undefined;
+		}
+		if(method && methods[method]){
+			return $(this).each(methods[method].bind(this, options));
+		}
+		else
+		return $(this).each(function() {
 
             var
                 _td_input = $(this),
@@ -57,13 +82,19 @@
 
             };
 
+			if(
+				$.isNumeric(_td_input.data('td_id')) &&
+				$('#td-clock-' + _td_input.data('td_id')).length > 0
+			) return; // already instantiated on this input!
+
             _td_input.prop({
                 'readonly': true
             }).addClass('td-input');
+			_td_input.data('td_id', _td_id);
 
             $('body').append('<div class="td-wrap td-n2" id="td-clock-' + _td_id + '"><div class="td-overlay"></div><div class="td-clock td-init"><div class="td-deg td-n"><div class="td-select"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 35.4" enable-background="new 0 0 100 35.4" xml:space="preserve"><g><path fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M98.1,33C85.4,21.5,68.5,14.5,50,14.5S14.6,21.5,1.9,33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="1.9" y2="28.6"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="6.3" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="93.7" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="98.1" y2="28.6"/></g></svg></div></div><div class="td-medirian"><span class="td-icon-am td-n">AM</span><span class="td-icon-pm td-n">PM</span></div><div class="td-lancette"><div></div><div></div></div><div class="td-time"><span class="on"></span>:<span></span></div></div></div>');
 
-            $('head').append('<style>#td-clock-' + _td_id + ' .td-clock {color:' + _td_options.textColor + ';background: ' + _td_options.backgroundColor + '; box-shadow: 0 0 0 1px ' + _td_options.borderColor + ',0 0 0 8px rgba(0, 0, 0, 0.05); } #td-clock-' + _td_id + ' .td-clock .td-time span.on { color:' + _td_options.primaryColor + '} #td-clock-' + _td_id + ' .td-clock:before { border-color: ' + _td_options.borderColor + '} #td-clock-' + _td_id + ' .td-select:after { box-shadow: 0 0 0 1px ' + _td_options.borderColor + ' } #td-clock-' + _td_id + ' .td-clock:before,#td-clock-' + _td_id + ' .td-select:after {background: ' + _td_options.backgroundColor + ';} #td-clock-' + _td_id + ' .td-lancette {border: 2px solid ' + _td_options.primaryColor + '; opacity:0.1}#td-clock-' + _td_id + ' .td-lancette div:after { background: ' + _td_options.primaryColor + ';} #td-clock-' + _td_id + ' .td-bulletpoint div:after { background:' + _td_options.primaryColor + '; opacity:0.1}</style>');
+            $('head').append('<style id="td-style-' + _td_id + '>#td-clock-' + _td_id + ' .td-clock {color:' + _td_options.textColor + ';background: ' + _td_options.backgroundColor + '; box-shadow: 0 0 0 1px ' + _td_options.borderColor + ',0 0 0 8px rgba(0, 0, 0, 0.05); } #td-clock-' + _td_id + ' .td-clock .td-time span.on { color:' + _td_options.primaryColor + '} #td-clock-' + _td_id + ' .td-clock:before { border-color: ' + _td_options.borderColor + '} #td-clock-' + _td_id + ' .td-select:after { box-shadow: 0 0 0 1px ' + _td_options.borderColor + ' } #td-clock-' + _td_id + ' .td-clock:before,#td-clock-' + _td_id + ' .td-select:after {background: ' + _td_options.backgroundColor + ';} #td-clock-' + _td_id + ' .td-lancette {border: 2px solid ' + _td_options.primaryColor + '; opacity:0.1}#td-clock-' + _td_id + ' .td-lancette div:after { background: ' + _td_options.primaryColor + ';} #td-clock-' + _td_id + ' .td-bulletpoint div:after { background:' + _td_options.primaryColor + '; opacity:0.1}</style>');
 
 
 
@@ -367,12 +398,12 @@
 
             _td_init();
 
-            _td_input.focus(function(e) {
+            _td_input.on('focus.timeDropper', function(e) {
                 e.preventDefault();
                 _td_input.blur();
             });
 
-            _td_input.click(function(e) {
+            _td_input.on('click.timeDropper', function(e) {
 
                 clearInterval(_td_event);
 
